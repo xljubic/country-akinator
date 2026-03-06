@@ -1,0 +1,5 @@
+{:db {:host "127.0.0.1"
+      :port 3306
+      :name "country_akinator"
+      :user "root"
+      :password ""}}
