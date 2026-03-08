@@ -1,7 +1,10 @@
 (ns country-akinator.core-test
-  (:require [clojure.test :refer :all]
-            [country-akinator.core :refer :all]))
+  (:require [midje.sweet :refer :all]
+            [country-akinator.config :as config]
+            [country-akinator.db :as db]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(fact "configuration can be loaded"
+      (map? (config/load-config)) => true)
+
+(fact "db-spec returns a mysql config map"
+      (:dbtype (db/db-spec)) => "mysql")
