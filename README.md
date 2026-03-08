@@ -113,6 +113,19 @@ Completed tasks:
 
 This part establishes the basic infrastructure needed for the rest of the project.
 
+## Part 2 — Database integration
+
+In this stage the application was connected to the MySQL database.
+
+Implemented features:
+
+- database connection via `clojure.java.jdbc`
+- first SQL queries
+- repository layer for accessing countries
+- loading all countries from the database
+- loading a single country by id
+- building a map `{id -> country}` for fast lookup
+
 ---
 
 

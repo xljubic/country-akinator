@@ -20,4 +20,12 @@
     (println country))
   (println)
 
+  (println "Country with id 151:")
+  (println (repo/load-country-by-id 151))
+  (println)
+
+  (println "Checking map by id:")
+  (println (get (repo/load-countries-by-id) 151))
+  (println)
+
   (println "Database read successful."))
