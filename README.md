@@ -46,27 +46,42 @@ The project is implemented using the following technologies:
 - MySQL
 - IntelliJ IDEA
 
+## Database
+
+The project uses a MySQL database containing all UN member states and their attributes.
+
+Main tables:
+
+- `countries`
+- `country_regions`
+- `country_organizations`
+- `country_neighbors`
+
+These tables allow the application to generate questions dynamically and evaluate how well they split the remaining candidate countries.
+
 ---
 
 # Project Structure
 
+```
 country-akinator
 │
 ├── project.clj
 ├── README.md
 │
 ├── resources
-│ └── config.edn
+│   └── config.edn
 │
 ├── src
-│ └── country_akinator
-│ ├── core.clj
-│ ├── config.clj
-│ └── db.clj
+│   └── country_akinator
+│       ├── core.clj
+│       ├── config.clj
+│       └── db.clj
 │
 └── test
-└── country_akinator
-└── core_test.clj
+    └── country_akinator
+        └── core_test.clj
+```
 
 # Running the Project
 
