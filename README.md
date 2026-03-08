@@ -1,44 +1,109 @@
-# country-akinator
+# Country Akinator
 
-FIXME: description
+Country Akinator is a CLI Clojure project inspired by Akinator.  
+The goal of the application is to guess a **UN member state** that the user has in mind.
 
-## Installation
+The user thinks of a country, and the program asks a sequence of **yes/no questions** in the console. Based on the answers, the program filters the remaining candidate countries and selects the next best question.
 
-Download from https://example.com/FIXME.
+The objective is to guess the correct country in a small number of questions.
 
-## Usage
+---
 
-FIXME: explanation
+# Project Idea
 
-    $ java -jar country-akinator-0.1.0-standalone.jar [args]
+The application uses a **MySQL database** that contains data about all UN member states.
 
-## Options
+The database contains the following information:
 
-FIXME: listing of options this app accepts.
+- country attributes (`countries`)
+- organization memberships (`country_organizations`)
+- regional classifications (`country_regions`)
+- neighboring countries (`country_neighbors`)
 
-## Examples
+Questions are generated automatically from these datasets.
 
-...
+Examples of possible questions:
 
-### Bugs
+- Is the country in Europe?
+- Is the country a member of NATO?
+- Is the country landlocked?
+- Does the country border Serbia?
+- Does the country's flag contain a star?
 
-...
+The algorithm evaluates all possible questions and selects the ones that best divide the remaining candidate countries.
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+From the **top 5 best questions**, one is chosen randomly to avoid deterministic gameplay.
 
-## License
+---
 
-Copyright © 2026 FIXME
+# Tech Stack
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-https://www.eclipse.org/legal/epl-2.0.
+The project is implemented using the following technologies:
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+- Clojure
+- Leiningen
+- Midje (testing framework)
+- MySQL
+- IntelliJ IDEA
+
+---
+
+# Project Structure
+
+country-akinator
+│
+├── project.clj
+├── README.md
+│
+├── resources
+│ └── config.edn
+│
+├── src
+│ └── country_akinator
+│ ├── core.clj
+│ ├── config.clj
+│ └── db.clj
+│
+└── test
+└── country_akinator
+└── core_test.clj
+
+# Running the Project
+
+Run the application:
+
+lein run
+
+Run the tests:
+
+lein midje
+
+---
+
+# Development Progress
+
+## Part 1 — Project Setup
+
+The first stage of the project focused on setting up the basic application structure.
+
+Completed tasks:
+
+- Created a new Leiningen project
+- Configured project dependencies in `project.clj`
+- Implemented application configuration file `config.edn`
+- Implemented configuration loader (`config.clj`)
+- Implemented database specification builder (`db.clj`)
+- Added a basic CLI entry point in `core.clj`
+- Added initial Midje tests
+
+This part establishes the basic infrastructure needed for the rest of the project.
+
+---
+
+
+
+# License
+
+Copyright © 2026 Aleksandar Ljubic
+
+
