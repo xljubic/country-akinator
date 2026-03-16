@@ -126,6 +126,16 @@ Implemented features:
 - loading a single country by id
 - building a map `{id -> country}` for fast lookup
 
+## Part 3 – Question Model and Basic Game Logic
+
+Implemented:
+- answer model (`YES`, `NO`, `DONT KNOW`)
+- automatic question generation from country attributes
+- question text generation
+- question evaluation for enum and boolean questions
+- candidate filtering based on user answers
+- Midje tests for question generation and filtering
+
 ---
 
 
