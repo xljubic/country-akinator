@@ -57,3 +57,41 @@
         test-countries
         {:kind :boolean :attribute :capital_is_largest})
       => 0)
+
+(fact "score-question returns question with its score"
+      (scoring/score-question
+        test-countries
+        {:kind :enum :attribute :continent :value "europe"})
+      => {:question {:kind :enum :attribute :continent :value "europe"}
+          :score 2})
+
+(fact "rank-questions sorts questions by score descending"
+      (let [questions [{:kind :enum :attribute :continent :value "asia"}
+                       {:kind :enum :attribute :continent :value "europe"}
+                       {:kind :boolean :attribute :capital_is_largest}]]
+        (map :score (scoring/rank-questions test-countries questions))
+        => [2 1 0]))
+
+(fact "rank-questions keeps the best question first"
+      (let [questions [{:kind :enum :attribute :continent :value "asia"}
+                       {:kind :enum :attribute :continent :value "europe"}
+                       {:kind :boolean :attribute :capital_is_largest}]]
+        (:question (first (scoring/rank-questions test-countries questions)))
+        => {:kind :enum :attribute :continent :value "europe"}))
+
+(fact "top-questions returns only N best questions"
+      (let [questions [{:kind :enum :attribute :continent :value "asia"}
+                       {:kind :enum :attribute :continent :value "europe"}
+                       {:kind :boolean :attribute :capital_is_largest}]]
+        (count (scoring/top-questions test-countries questions 2))
+        => 2))
+
+(fact "choose-next-question returns one of the top questions"
+      (let [questions [{:kind :enum :attribute :continent :value "asia"}
+                       {:kind :enum :attribute :continent :value "europe"}
+                       {:kind :boolean :attribute :capital_is_largest}]
+            result (scoring/choose-next-question test-countries questions)]
+        (contains? (set (map :question
+                             (scoring/top-questions test-countries questions 5)))
+                   result)
+        => true))

@@ -136,6 +136,25 @@ Implemented:
 - candidate filtering based on user answers
 - Midje tests for question generation and filtering
 
+## Part 4 – Question Scoring and Selection
+
+Implemented:
+
+* question scoring based on how well a question splits the remaining countries
+* counting YES and NO distributions for each question
+* ranking questions by score
+* selecting the top N questions
+* random selection of one question from the top 5
+
+In this stage, the project gained the core logic for choosing better questions instead of asking them in arbitrary order.
+
+A question is scored based on how balanced the YES/NO split is among the remaining candidate countries.  
+Questions that divide the candidates more evenly receive a better score.
+
+After scoring all generated questions, the algorithm ranks them, keeps the best ones, and randomly selects one from the top 5.  
+This improves gameplay and avoids always asking the exact same sequence of questions.
+
+
 ---
 
 
