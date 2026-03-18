@@ -154,6 +154,33 @@ Questions that divide the candidates more evenly receive a better score.
 After scoring all generated questions, the algorithm ranks them, keeps the best ones, and randomly selects one from the top 5.  
 This improves gameplay and avoids always asking the exact same sequence of questions.
 
+## Part 5 – Game Loop and Integration with Database
+
+Implemented:
+
+* interactive game loop for asking questions and processing user input
+* integration with MySQL database (loading all countries at the start of the game)
+* dynamic selection of the next question using the scoring algorithm
+* filtering candidate countries based on user answers
+* tracking already asked questions to avoid repetition
+* stopping conditions when the number of candidate countries becomes small
+
+In this stage, the application became a fully functional CLI game.
+At the start of the game, all countries are loaded from the database and treated as possible candidates.
+
+The system then repeatedly:
+
+* selects the next best question using the scoring mechanism from Part 4
+* asks the user the question
+* processes the answer (YES / NO / DONT KNOW)
+* filters the candidate countries accordingly
+* The game continues until only one or a small number of countries remain.
+
+At the end of the game:
+
+* if exactly one country remains, the system outputs the final guess
+* if multiple countries remain, the system outputs the best candidates
+* This completes the core functionality of the Country Akinator application and connects all previously implemented components into a working system.
 
 ---
 

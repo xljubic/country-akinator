@@ -21,7 +21,7 @@
       :else nil)))
 
 (defn game-finished? [countries]
-  (or (<= (count countries) 1)
+  (or (<= (count countries) 3)
       (empty? countries)))
 
 (defn play-round [countries asked-questions]
