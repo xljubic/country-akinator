@@ -21,7 +21,7 @@
       :else nil)))
 
 (defn game-finished? [countries]
-  (or (<= (count countries) 3)
+  (or (= (count countries) 1)
       (empty? countries)))
 
 (defn play-round [countries asked-questions]
@@ -53,7 +53,7 @@
 
     :else
     (do
-      (println "My best guesses are:")
+      (println "Is your country one of these?")
       (doseq [country countries]
         (println "-" (:name country))))))
 

@@ -182,6 +182,14 @@ At the end of the game:
 * if multiple countries remain, the system outputs the best candidates
 * This completes the core functionality of the Country Akinator application and connects all previously implemented components into a working system.
 
+## Part 6 – Improved Question Selection and Game Ending
+
+In this part, the game flow is improved so that the application continues asking questions until only one country remains.
+
+Question selection is also refined by introducing a minimum score threshold. Only questions with score greater than 0 are considered for the top ranked questions. If more than five such questions exist, the best five are taken and one of them is selected randomly. If fewer than five questions satisfy the condition, all of them are considered.
+
+If no remaining question can reduce the current set of candidate countries, the game stops and displays the remaining countries as the best possible matches.
+
 ---
 
 

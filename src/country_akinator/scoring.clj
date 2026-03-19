@@ -29,9 +29,10 @@
 
 (defn top-questions [countries questions n]
   (take n
-        (rank-questions countries questions)))
+        (filter #(>= (:score %) 1)
+                (rank-questions countries questions))))
 
 (defn choose-next-question [countries questions]
-  (let [top5 (vec (top-questions countries questions 5))]
-    (when (seq top5)
-      (:question (rand-nth top5)))))
+  (let [candidates (vec (top-questions countries questions 5))]
+    (when (seq candidates)
+      (:question (rand-nth candidates)))))
