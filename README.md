@@ -190,6 +190,16 @@ Question selection is also refined by introducing a minimum score threshold. Onl
 
 If no remaining question can reduce the current set of candidate countries, the game stops and displays the remaining countries as the best possible matches.
 
+## Part 7 – Numeric Fallback Questions
+
+In this part, numeric fallback questions are introduced for situations where only a small number of useful regular questions remain.
+
+The application now generates fallback questions based on the median values of the remaining candidate countries for population, area, and number of bordering countries. One random numeric fallback question is added when fewer than five regular questions have a positive score.
+
+This allows the game to continue narrowing down the candidate set even in later rounds, when boolean and enum questions may no longer provide enough useful distinctions.
+
+The game now continues until only one country remains. If no remaining question can reduce the current set of candidate countries, the application stops and displays the remaining countries as the best possible matches.
+
 ---
 
 

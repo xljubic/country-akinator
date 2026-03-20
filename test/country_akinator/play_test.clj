@@ -20,20 +20,39 @@
    :continent "europe"
    :landlocked true})
 
+(def brazil
+  {:id 24
+   :name "Brazil"
+   :continent "south_america"
+   :landlocked false})
+
 (def test-countries [serbia japan hungary])
 
-(fact "game-finished? returns false when more than 3 countries remain"
-      (play/game-finished? [serbia japan hungary {:id 24 :name "Brazil"}])
+(fact "game-finished? returns false when more than one country remains"
+      (play/game-finished? [serbia japan hungary brazil])
       => false)
 
-(fact "game-finished? returns true when 3 countries remain"
+(fact "game-finished? returns false when three countries remain"
       (play/game-finished? test-countries)
+      => false)
+
+(fact "game-finished? returns false when two countries remain"
+      (play/game-finished? [serbia japan])
+      => false)
+
+(fact "game-finished? returns true when one country remains"
+      (play/game-finished? [serbia])
+      => true)
+
+(fact "game-finished? returns true when no countries remain"
+      (play/game-finished? [])
       => true)
 
 (fact "remaining-questions excludes already asked questions"
       (let [asked [{:kind :enum :attribute :continent :value "europe"}]
             remaining (play/remaining-questions test-countries asked)]
-        (contains? (set remaining) {:kind :enum :attribute :continent :value "europe"})
+        (contains? (set remaining)
+                   {:kind :enum :attribute :continent :value "europe"})
         => false))
 
 (fact "select-next-question returns a question that was not already asked"

@@ -8,8 +8,14 @@
           (questions/generate-country-questions countries)))
 
 (defn select-next-question [countries asked-questions]
-  (let [questions (remaining-questions countries asked-questions)]
-    (scoring/choose-next-question countries questions)))
+  (let [regular-questions (remaining-questions countries asked-questions)
+        positive-regular-questions (scoring/top-questions countries regular-questions 5)
+        fallback-question (when (< (count positive-regular-questions) 5)
+                            (questions/random-fallback-question countries))
+        all-questions (cond-> (vec regular-questions)
+                              fallback-question (conj fallback-question))
+        available-questions (remove (set asked-questions) all-questions)]
+    (scoring/choose-next-question countries available-questions)))
 
 (defn read-answer []
   (println "Type: yes / no / dont-know")

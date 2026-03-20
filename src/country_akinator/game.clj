@@ -4,6 +4,8 @@
   (let [kind (:kind question)
         attribute (:attribute question)
         value (:value question)
+        threshold (:threshold question)
+        operator (:operator question)
         country-value (get country attribute)]
     (cond
       (= kind :enum)
@@ -11,6 +13,14 @@
 
       (= kind :boolean)
       (= country-value true)
+
+      (= kind :numeric)
+      (if (nil? country-value)
+        false
+        (cond
+          (= operator :greater-than) (> country-value threshold)
+          (= operator :less-than) (< country-value threshold)
+          :else false))
 
       :else
       false)))
@@ -32,4 +42,3 @@
 
     :else
     countries))
-

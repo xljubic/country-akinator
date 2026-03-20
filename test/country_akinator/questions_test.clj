@@ -4,26 +4,39 @@
             [country-akinator.game :as game]))
 
 (def serbia
-  {:id 151
+  {:id 1
    :name "Serbia"
    :continent "europe"
    :religion_majority "christianity"
-   :main_language_family "indo_european"
+   :main_language_family "slavic"
    :landlocked true
-   :a_monarchy false
-   :horizontal_tricolor true})
+   :population 6600000
+   :area 88361
+   :number_of_bordering_countries 8})
 
 (def japan
-  {:id 81
+  {:id 2
    :name "Japan"
    :continent "asia"
-   :religion_majority "other"
+   :religion_majority "buddhism"
    :main_language_family "japonic"
-   :landlocked false
-   :a_monarchy true
-   :horizontal_tricolor false})
+   :an_island_or_archipelago true
+   :population 123000000
+   :area 377975
+   :number_of_bordering_countries 0})
 
-(def test-countries [serbia japan])
+(def brazil
+  {:id 3
+   :name "Brazil"
+   :continent "south_america"
+   :religion_majority "christianity"
+   :main_language_family "romance"
+   :have_coast_on_the_atlantic_ocean true
+   :population 203000000
+   :area 8515767
+   :number_of_bordering_countries 10})
+
+(def test-countries [serbia japan brazil])
 
 (fact "generate-country-questions includes europe continent question"
       (some (fn [question]
@@ -87,7 +100,7 @@
           test-countries
           {:kind :enum :attribute :continent :value "europe"}
           :no))
-      => [japan])
+      => [japan brazil])
 
 (fact "apply-answer keeps all countries for dont-know"
       (vec
@@ -95,4 +108,43 @@
           test-countries
           {:kind :enum :attribute :continent :value "europe"}
           :dont-know))
-      => [serbia japan])
+      => [serbia japan brazil])
+
+(fact "fallback-numeric-questions generates six numeric fallback questions"
+      (count (questions/fallback-numeric-questions test-countries))
+      => 6)
+
+(fact "fallback-numeric-questions creates numeric questions"
+      (every? #(= :numeric (:kind %))
+              (questions/fallback-numeric-questions test-countries))
+      => true)
+
+(fact "random-fallback-question returns one of generated fallback questions"
+      (let [fallback-questions (questions/fallback-numeric-questions test-countries)
+            result (questions/random-fallback-question test-countries)]
+        (contains? (set fallback-questions) result))
+      => true)
+
+(fact "question-text formats population fallback question"
+      (questions/question-text
+        {:kind :numeric
+         :attribute :population
+         :operator :greater-than
+         :threshold 23000000})
+      => "Is the population of your country greater than 23 million?")
+
+(fact "question-text formats area fallback question"
+      (questions/question-text
+        {:kind :numeric
+         :attribute :area
+         :operator :less-than
+         :threshold 900})
+      => "Is the area of your country smaller than 900 km²?")
+
+(fact "question-text formats bordering countries fallback question"
+      (questions/question-text
+        {:kind :numeric
+         :attribute :number_of_bordering_countries
+         :operator :greater-than
+         :threshold 3})
+      => "Does your country border more than 3 countries?")
