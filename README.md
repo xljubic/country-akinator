@@ -381,13 +381,36 @@ The complete flow of the application can be summarized as follows:
 
 # Running the Project
 
-Run the application:
+Before running the project, make sure that:
 
+* MySQL is installed and running
+* the database is created by importing the `baza_akinator.sql` file
+* the database connection settings in `resources/config.edn` are correct
+
+## 1. Import the Database
+
+First, import the `baza_akinator.sql` file into MySQL.
+
+After that, verify that the database contains the required tables and data.
+
+## 2. Check Configuration
+
+Open `resources/config.edn` and make sure that the database connection parameters are correct:
+
+* database name
+* username
+* password
+* host
+* port
+
+## 3. Run the Application:
+```
 lein run
-
-Run the tests:
-
+```
+## 4. Run the Tests:
+```
 lein midje
+```
 
 ---
 
