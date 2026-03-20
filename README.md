@@ -54,8 +54,9 @@ Main tables:
 
 - `countries`
 - `country_regions`
+- `regions`
 - `country_organizations`
-- `country_neighbors`
+- `organizations`
 
 These tables allow the application to generate questions dynamically and evaluate how well they split the remaining candidate countries.
 
@@ -199,6 +200,16 @@ The application now generates fallback questions based on the median values of t
 This allows the game to continue narrowing down the candidate set even in later rounds, when boolean and enum questions may no longer provide enough useful distinctions.
 
 The game now continues until only one country remains. If no remaining question can reduce the current set of candidate countries, the application stops and displays the remaining countries as the best possible matches.
+
+## Part 8 – Region and Organization Membership Questions
+
+In this part, the set of regular questions is extended with questions based on country regions and international organizations.
+
+The application now loads additional data from the database through the country_regions, regions, country_organizations, and organizations tables. Each country is enriched with its corresponding regions and organization memberships.
+
+Based on this data, the system automatically generates new regular questions such as whether a country belongs to a certain region or whether it is a member of a certain international organization.
+
+These questions are treated the same as other regular questions: they are scored, ranked, and considered during the selection of the next question. This improves the ability of the game to distinguish between countries using additional relational data from the database.
 
 ---
 

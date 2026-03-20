@@ -12,7 +12,9 @@
    :landlocked true
    :population 6600000
    :area 88361
-   :number_of_bordering_countries 8})
+   :number_of_bordering_countries 8
+   :regions #{"Southern Europe" "Eastern Europe"}
+   :organizations #{"BRICS"}})
 
 (def japan
   {:id 2
@@ -23,7 +25,9 @@
    :an_island_or_archipelago true
    :population 123000000
    :area 377975
-   :number_of_bordering_countries 0})
+   :number_of_bordering_countries 0
+   :regions #{"Eastern Asia"}
+   :organizations #{"Group of Seven" "OECD"}})
 
 (def brazil
   {:id 3
@@ -34,7 +38,9 @@
    :have_coast_on_the_atlantic_ocean true
    :population 203000000
    :area 8515767
-   :number_of_bordering_countries 10})
+   :number_of_bordering_countries 10
+   :regions #{"South America" "Latin America"}
+   :organizations #{"BRICS"}})
 
 (def test-countries [serbia japan brazil])
 
@@ -148,3 +154,69 @@
          :operator :greater-than
          :threshold 3})
       => "Does your country border more than 3 countries?")
+
+(fact "generate-country-questions includes region membership question"
+      (some (fn [question]
+              (= question
+                 {:kind :membership
+                  :attribute :regions
+                  :value "South America"}))
+            (questions/generate-country-questions test-countries))
+      => truthy)
+
+(fact "generate-country-questions includes organization membership question"
+      (some (fn [question]
+              (= question
+                 {:kind :membership
+                  :attribute :organizations
+                  :value "BRICS"}))
+            (questions/generate-country-questions test-countries))
+      => truthy)
+
+(fact "question-text formats region membership question correctly"
+      (questions/question-text
+        {:kind :membership
+         :attribute :regions
+         :value "South America"})
+      => "Is your country in the South America region?")
+
+(fact "question-text formats organization membership question correctly"
+      (questions/question-text
+        {:kind :membership
+         :attribute :organizations
+         :value "BRICS"})
+      => "Is your country a member of BRICS?")
+
+(fact "matches-question? returns true for matching region membership question"
+      (game/matches-question?
+        brazil
+        {:kind :membership
+         :attribute :regions
+         :value "South America"})
+      => true)
+
+(fact "matches-question? returns false for non-matching region membership question"
+      (game/matches-question?
+        japan
+        {:kind :membership
+         :attribute :regions
+         :value "South America"})
+      => false)
+
+(fact "matches-question? returns true for matching organization membership question"
+      (game/matches-question?
+        brazil
+        {:kind :membership
+         :attribute :organizations
+         :value "BRICS"})
+      => true)
+
+(fact "apply-answer filters countries for organization membership question"
+      (vec
+        (game/apply-answer
+          test-countries
+          {:kind :membership
+           :attribute :organizations
+           :value "BRICS"}
+          :yes))
+      => [serbia brazil])

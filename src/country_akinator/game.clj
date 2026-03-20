@@ -14,6 +14,9 @@
       (= kind :boolean)
       (= country-value true)
 
+      (= kind :membership)
+      (contains? (get country attribute #{}) value)
+
       (= kind :numeric)
       (if (nil? country-value)
         false

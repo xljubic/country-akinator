@@ -76,6 +76,22 @@
    :operator operator
    :threshold threshold})
 
+(defn build-membership-question [attribute value]
+  {:kind :membership
+   :attribute attribute
+   :value value})
+
+(defn distinct-membership-values [countries attribute]
+  (sort
+    (distinct
+      (mapcat attribute countries))))
+
+(defn generate-membership-questions [countries attribute]
+  (map
+    (fn [value]
+      (build-membership-question attribute value))
+    (distinct-membership-values countries attribute)))
+
 (defn generate-enum-questions [countries definition]
   (let [attribute (:attribute definition)
         allowed-values (:allowed-values definition)
@@ -101,6 +117,8 @@
     (generate-boolean-questions does-your-country-attributes)
     (generate-boolean-questions flag-shape-attributes)
     (generate-boolean-questions flag-symbol-attributes)
+    (generate-membership-questions countries :regions)
+    (generate-membership-questions countries :organizations)
     [(build-boolean-question :capital_is_largest)]))
 
 (defn median [numbers]
@@ -182,6 +200,14 @@
                                       enum-question-definitions))
             text-fn (:text-fn definition)]
         (text-fn value))
+
+      (and (= kind :membership)
+           (= attribute :regions))
+      (str "Is your country in the " value " region?")
+
+      (and (= kind :membership)
+           (= attribute :organizations))
+      (str "Is your country a member of " value "?")
 
       (and (= kind :numeric)
            (= attribute :population)
