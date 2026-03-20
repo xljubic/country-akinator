@@ -211,6 +211,14 @@ Based on this data, the system automatically generates new regular questions suc
 
 These questions are treated the same as other regular questions: they are scored, ranked, and considered during the selection of the next question. This improves the ability of the game to distinguish between countries using additional relational data from the database.
 
+## Part 9 – Improved Final Output and Replay Option
+
+In this part, the console output is improved to make the game result clearer and more informative.
+
+When the application successfully narrows the candidate set down to one country, it now prints a short summary of that country, including its continent, population, area, number of bordering countries, major religion, and main language family. If available, the output also includes the regions the country belongs to and the international organizations of which it is a member.
+
+In addition, the application now allows the user to start another round after the game ends. This makes the program easier to use and improves the overall command-line experience.
+
 ---
 
 

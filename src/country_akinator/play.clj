@@ -1,5 +1,6 @@
 (ns country-akinator.play
-  (:require [country-akinator.questions :as questions]
+  (:require [clojure.string :as str]
+            [country-akinator.questions :as questions]
             [country-akinator.game :as game]
             [country-akinator.scoring :as scoring]))
 
@@ -48,6 +49,38 @@
                 (vec (game/apply-answer countries question answer))
                 (conj asked-questions question)))))))))
 
+(defn format-number [n]
+  (format "%,d" (long n)))
+
+(defn format-text-value [value]
+  (if (string? value)
+    (str/replace value "_" " ")
+    value))
+
+(defn join-values [values]
+  (str/join ", " (sort values)))
+
+(defn print-country-summary [country]
+  (let [name (:name country)
+        continent (format-text-value (:continent country))
+        population (format-number (:population country))
+        area (format-number (:area country))
+        bordering-countries (:number_of_bordering_countries country)
+        religion (format-text-value (:religion_majority country))
+        language-family (format-text-value (:main_language_family country))
+        organizations (:organizations country)
+        regions (:regions country)]
+    (println (str name " is a country in " continent "."))
+    (println (str "Population: " population))
+    (println (str "Area: " area " km²"))
+    (println (str "Number of bordering countries: " bordering-countries))
+    (println (str "Major religion: " religion))
+    (println (str "Main language family: " language-family))
+    (when (seq organizations)
+      (println (str "Member of organizations: " (join-values organizations))))
+    (when (seq regions)
+      (println (str "Located in regions: " (join-values regions))))))
+
 (defn print-result [countries]
   (println)
   (cond
@@ -55,16 +88,36 @@
     (println "No country matches the given answers.")
 
     (= 1 (count countries))
-    (println "I think your country is:" (:name (first countries)))
+    (let [country (first countries)]
+      (println (str "I think your country is: " (:name country)))
+      (println)
+      (print-country-summary country))
 
     :else
     (do
+      (println "I could not narrow it down to one country.")
       (println "Is your country one of these?")
       (doseq [country countries]
         (println "-" (:name country))))))
 
+(defn read-play-again []
+  (println)
+  (println "Do you want to play another round? yes / no")
+  (let [input (read-line)]
+    (cond
+      (= input "yes") true
+      (= input "no") false
+      :else
+      (do
+        (println "Invalid input. Please type yes or no.")
+        (read-play-again)))))
+
 (defn play-game [countries]
-  (println "Think of a UN member country.")
-  (println "I will try to guess it.")
-  (let [result (play-round countries [])]
-    (print-result result)))
+  (loop []
+    (println)
+    (println "Think of a UN member country.")
+    (println "I will try to guess it.")
+    (let [result (play-round countries [])]
+      (print-result result)
+      (when (read-play-again)
+        (recur)))))
