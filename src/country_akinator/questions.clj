@@ -155,7 +155,7 @@
     (str (quot (long value) 1000) " thousand")))
 
 (defn format-area-threshold [value]
-  (str (long value) " km²"))
+  (str (long value) " km2"))
 
 (defn format-border-threshold [value]
   (if (whole-number? value)
