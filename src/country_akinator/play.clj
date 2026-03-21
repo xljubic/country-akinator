@@ -72,7 +72,7 @@
         regions (:regions country)]
     (println (str name " is a country in " continent "."))
     (println (str "Population: " population))
-    (println (str "Area: " area " km²"))
+    (println (str "Area: " area " km2"))
     (println (str "Number of bordering countries: " bordering-countries))
     (println (str "Major religion: " religion))
     (println (str "Main language family: " language-family))
